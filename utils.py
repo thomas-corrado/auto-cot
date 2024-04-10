@@ -56,26 +56,26 @@ def decoder_for_gpt3(args, input, max_length):
     time.sleep(args.api_time_interval)
     
     # https://beta.openai.com/account/api-keys
-    # openai.api_key = "[Your OpenAI API Key]"
+    # put api key here
     
     # Specify engine ...
     # Instruct GPT3
     if args.model == "gpt3":
         engine = "text-ada-001"
     elif args.model == "gpt3-medium":
-        engine = "text-babbage-001"
+        engine = "gpt-3.5-turbo-instruct"
     elif args.model == "gpt3-large":
-        engine = "text-curie-001"
+        engine = "gpt-3.5-turbo-instruct"
     elif args.model == "gpt3-xl":
-        engine = "text-davinci-002"
-    elif args.model == "text-davinci-001":
-        engine = "text-davinci-001"
-    elif args.model == "code-davinci-002":
-        engine = "code-davinci-002"
+        engine = "gpt-3.5-turbo-instruct"
+    elif args.model == "gpt-3.5-turbo-instruct":
+        engine = "gpt-3.5-turbo-instruct"
+    elif args.model == "gpt-3.5-turbo-instruct":
+        engine = "gpt-3.5-turbo-instruct"
     else:
         raise ValueError("model is not properly defined ...")
         
-    if ("few_shot" in args.method or "auto" in args.method)  and engine == "code-davinci-002":
+    if ("few_shot" in args.method or "auto" in args.method)  and engine == "gpt-3.5-turbo-instruct":
         response = openai.Completion.create(
           engine=engine,
           prompt=input,
