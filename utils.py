@@ -50,14 +50,11 @@ def print_now(return_flag=0):
 
 # Sentence Generator (Decoder) for GPT-3 ...
 def decoder_for_gpt3(args, input, max_length):
-    
     # GPT-3 API allows each users execute the API within 60 times in a minute ...
     # time.sleep(1)
     time.sleep(args.api_time_interval)
-    
     # https://beta.openai.com/account/api-keys
     # put api key here!
-    
     # Specify engine ...
     # Instruct GPT3
     if args.model == "gpt3":
@@ -74,7 +71,6 @@ def decoder_for_gpt3(args, input, max_length):
         engine = "gpt-3.5-turbo-instruct"
     else:
         raise ValueError("model is not properly defined ...")
-        
     if ("few_shot" in args.method or "auto" in args.method)  and engine == "gpt-3.5-turbo-instruct":
         response = openai.Completion.create(
           engine=engine,
@@ -125,7 +121,6 @@ def data_reader(args):
           choice = "Answer Choices:" + choice
           questions.append(json_res["question"].strip() + " " + choice)
           answers.append(json_res["correct"])
-  
     elif args.dataset == "gsm8k":
       with open(args.dataset_path) as f:
         lines = f.readlines()
@@ -133,7 +128,6 @@ def data_reader(args):
           json_res = decoder.raw_decode(line)[0]
           questions.append(json_res["question"].strip())
           answers.append(json_res["answer"].split("#### ")[-1])
-  
     elif args.dataset == "commonsensqa":
       with open(args.dataset_path) as f:
         lines = f.readlines()
@@ -158,7 +152,6 @@ def data_reader(args):
               a = a[:-2]
           questions.append(q)
           answers.append(a)
-        
     elif args.dataset == "strategyqa":
       with open(args.dataset_path) as f:
         json_data = json.load(f)["examples"]
@@ -171,7 +164,6 @@ def data_reader(args):
               a = "no"
           questions.append(q)
           answers.append(a)
-        
     elif args.dataset == "svamp":
       with open(args.dataset_path) as f:
         json_data = json.load(f)
@@ -182,7 +174,6 @@ def data_reader(args):
                 a = a[:-2]
             questions.append(q)
             answers.append(a)
-            
     elif args.dataset in ("bigbench_date", "object_tracking"):
       with open(args.dataset_path) as f:
         json_data = json.load(f)
@@ -216,7 +207,6 @@ def data_reader(args):
           q = q + " " + choice
           questions.append(q)
           answers.append(a)            
-          
     elif args.dataset in ("coin_flip", "last_letters"):
       with open(args.dataset_path) as f:
         json_data = json.load(f)
@@ -226,19 +216,15 @@ def data_reader(args):
           a = line["answer"]
           questions.append(q)
           answers.append(a)
-        
     else:
         raise ValueError("dataset is not properly defined ...")
-    
     q_len_list = []
     for q in questions:
         q_len_list.append(len(q.split(" ")))
     q_len_mean = mean(q_len_list)
-    
     print("dataset : {}".format(args.dataset))
     print("data size : {}".format(len(answers)))
     print("average num of words for each sample : {}".format(q_len_mean))
-    
     return questions, answers
 
 # Create dataset object before dataloader ...
@@ -247,10 +233,8 @@ class MyDataset(Dataset):
         super().__init__()
         self.questions, self.answers = data_reader(args)
         self.len = len(self.questions)
-        
     def __len__(self):
         return self.len
-    
     def __getitem__(self, index):
         input = self.questions[index]
         output = self.answers[index]
@@ -268,13 +252,10 @@ def setup_data_loader(args):
         random.seed(worker_seed)
     g = torch.Generator()
     g.manual_seed(worker_seed)
-    
     dataloader_num_workers = multiprocessing.cpu_count()
     dataloader_num_workers = min(dataloader_num_workers, args.max_num_worker)
     print("dataloader_num_workers: " + str(dataloader_num_workers))
-    
     dataset = MyDataset(args)
-    
     dataloader = torch.utils.data.DataLoader(dataset,
                   shuffle=True,
                   batch_size=args.minibatch_size,
@@ -290,7 +271,6 @@ def setup_data_loader(args):
 def answer_cleansing(args, pred, must_choice=False):
 
     print("pred_before : " + pred)
-    
     if args.method in ("few_shot", "few_shot_cot", "auto_cot"):
         preds = pred.split(args.direct_answer_trigger_for_fewshot)
         answer_flag = True if len(preds) > 1 else False 
@@ -335,14 +315,11 @@ def answer_cleansing(args, pred, must_choice=False):
             pred = pred[0]
         else:
             raise ValueError("method is not properly defined ...")
-    
     # (For arithmetic tasks) if a word ends with period, it will be omitted ...
     if pred != "":
         if pred[-1] == ".":
             pred = pred[:-1]
-    
     print("pred_after : " + pred)
-    
     return pred
 
 def create_demo_text(args, cot_flag):
@@ -357,7 +334,6 @@ def create_demo_text(args, cot_flag):
             y.append(line["pred_ans"])
 
     index_list = list(range(len(x)))
-    
     demo_text = ""
     for i in index_list:
         if cot_flag:
