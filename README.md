@@ -6,8 +6,8 @@ The information below the horizontal line originates from the AutoCoT repository
   - <ins>Lack of Seamless Integration</ins>: The first thing Thomas and Lucy noticed was that the `run_demo.py`, `run_inference.py`, and `utils.py` files did not work seamlessly. It was confusing to run these files together and understand which programs were actually clustering the questions and then sending them to ChatGPT. Over time, Thomas and Lucy concluded that `run_demo.py` would cluster the questions, pull out the center-most question, and then create a demo text file that `run_inference.py` would use to run the Auto-CoT program; `run_inference.py` also utilized the functions and parameters in `utils.py` to perform Auto-CoT. Lucy and Thomas wanted one program that could carry out all of these actions. Integrating `run_demo.py`'s logic to `run_inference.py` was the first change we made. We wanted all users to be able to run our program without headaches and confusion, regardless of their coding background. ChatGPT is a tool for everyone, and it was important to create a project that was accessible. 
   - <ins>Wrong Demonstrations</ins>: Another problem we recognized was that the center-most question retrieval method did not prohibit incorrectly answered questions from being selected for the demonstration text sent to ChatGPT. Questions in the demonstration text answered incorrectly means that ChatGPT has a higher likelihood of also answering the target question incorrectly. Our next change was eliminating this problem while maintaining diversity-based clustering.
   - <ins>Poor Performance</ins>: Few-Shot CoT prompting outperformed Auto-CoT on commmon sense questions, achieving 79.5% accuracy compared to 74.4%. We understood the power of Auto-CoT, and we wanted to maximize its performance. 
-- ### Original Auto-CoT Logic Explanation
-- ### What is ErCheck Auto-CoT?
+- ### Original Auto-CoT Logic Explanation 🚧 WIP 🚧
+- ### What is ErCheck Auto-CoT? 🚧 WIP 🚧
   - Sampling and Reasoning Chain Validation
   - Clustering
 - ### Results
@@ -15,7 +15,7 @@ The information below the horizontal line originates from the AutoCoT repository
   - Few Shot utilizes the same demonstration text from Wei et al., 2022a and performs at 74.8% accuracy. 
   - The original AutoCoT model performs with 75.6% accuracy.  
   - Our improved version of AutoCoT, using ErCheck Auto-CoT with 9 clusters, performs with 84.6% accuracy!
-- ### Future Extensions 
+- ### Future Extensions 🚧 WIP 🚧
 
 -----
 
