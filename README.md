@@ -10,7 +10,11 @@ The information below the horizontal line originates from the AutoCoT repository
 - ### What is ErCheck Auto-CoT?
   - Sampling and Reasoning Chain Validation
   - Clustering
-- ### Results 
+- ### Results
+  - Zero Shot performs with 72.6% accuracy.
+  - Few Shot utilizes the same demonstration text from Wei et al., 2022a and performs at 74.8% accuracy. 
+  - The original AutoCoT model performs with 75.6% accuracy.  
+  - Our improved version of AutoCoT, using ErCheck Auto-CoT with 9 clusters, performs with 84.6% accuracy!
 - ### Future Extensions 
 
 -----
